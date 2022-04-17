@@ -1,7 +1,11 @@
 # Codecloudes_Assignment
 Welocome to my repository!!
+
+
 to check it live go to-https://codecloud-task.herokuapp.com/  
-instruction:
+
+
+Instruction:
 
 
 1.login as admin set the deafult location click the seach icon on the page or simple press enter after typing the desired location you want.
