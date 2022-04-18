@@ -77,9 +77,9 @@ async function getData(address) {
                 console.log(response);
                 const span = document.getElementById('flag');
                 if(response.result === true){
-                    span.innerHTML = `<span style="background-color: #22ff00">Yes distance = ${dist}</span>`;
+                    span.innerHTML = `<span style="background-color: #22ff00">Yes Distance = ${response.dist}</span>`;
                 }else{
-                    span.innerHTML = `<span style="background-color: #ff0000">No distance = ${dist}</span>`;
+                    span.innerHTML = `<span style="background-color: #ff0000">No Distance = ${response.dist}</span>`;
                 }
 
             }
