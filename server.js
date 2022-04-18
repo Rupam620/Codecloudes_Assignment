@@ -13,9 +13,9 @@ const server = http.createServer(app);
 app.use(express.static('public'))
 app.use(express.static(path.join(__dirname,'public')));
 app.use(bodyParser.json());
-JWT_SECRET = process.env.JWT_SEC;
+JWT_SECRET = 'asdfghjwerty34567][hgv';
 
-mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/neww', {
+mongoose.connect('mongodb+srv://rup620:Rupam12345@cluster0.kkr7b.mongodb.net/CodecloudesTask?retryWrites=true&w=majority' || 'mongodb://localhost:27017/neww', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     // useCreateIndex: true
@@ -85,11 +85,11 @@ app.post('/getResult', async (req, res) =>{
         const user = await User.findOneAndUpdate({ $and: [{usertype: false}, {username: usr.username}]}, {long: long1, lat: lat1});
         const admin = await User.findOne({usertype: true},'long lat');
         console.log(admin.long, admin.lat);
-        var dist = distance(lat1, admin.lat, long1, admin.long );
+        var dist = distance(lat1, long1,admin.lat, admin.long );
         if(dist<100){
             result= true;
         }
-        return res.json({ state: 'ok', result});
+        return res.json({ state: 'ok', result, dist});
     }catch(error){
         console.log(error);
         return res.json({state:'error'})
@@ -130,35 +130,24 @@ app.post('/register', async (req, res) =>{
 
     res.json({ status: 'ok'});
 });
+function distance(lat1, lon1, lat2, lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2-lat1);  // deg2rad below
+    var dLon = deg2rad(lon2-lon1); 
+    var a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2)
+      ; 
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    var d = R * c; // Distance in km
+    return d;
+  }
+  
+  function deg2rad(deg) {
+    return deg * (Math.PI/180)
+  }
 
-function distance(lat1,
-    lat2, lon1, lon2)
-{
-
-// The math module contains a function
-// named toRadians which converts from
-// degrees to radians.
-lon1 =  lon1 * Math.PI / 180;
-lon2 = lon2 * Math.PI / 180;
-lat1 = lat1 * Math.PI / 180;
-lat2 = lat2 * Math.PI / 180;
-
-// Haversine formula
-let dlon = lon2 - lon1;
-let dlat = lat2 - lat1;
-let a = Math.pow(Math.sin(dlat / 2), 2)
-+ Math.cos(lat1) * Math.cos(lat2)
-* Math.pow(Math.sin(dlon / 2),2);
-
-let c = 2 * Math.asin(Math.sqrt(a));
-
-// Radius of earth in kilometers. Use 3956
-// for miles
-let r = 3956;
-
-// calculate the result
-return(c * r);
-}
 
 const PORT  =  process.env.PORT || 3000;
 server.listen(PORT, ()=> console.log(`Server started at ${PORT} `));
